@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Video - Compressor</title>
+    <script
+      src="https://kit.fontawesome.com/37e9c3555a.js"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjVShBftLdPG8FJ0V7irTLQ8Uo0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Ubuntu&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+      body {
+        background-color: #8d44c4;
+        text-align: center;
+      }
+      form {
+        margin: 30px;
+        border: 3px solid #fff;
+        padding: 50px;
+        border-radius: 10px;
+      }
+      label {
+        font-size: 20px;
+        background-color: #fff;
+        padding: 10px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+      }
+      button[type="submit"] {
+        margin-top: 10px;
+        padding: 5px;
+        border-radius: 10px;
+        outline: none;
+        border: none;
+        font-weight: bold;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1 style="color: #fff">
+      <i class="fa-solid fa-photo-film"></i> Vidz Compressor
+    </h1>
+    <video
+      id="video"
+      width="300"
+      height="180"
+      controls
+      style="margin-top: 20px"
+    ></video>
+    <form action="/" method="POST" enctype="multipart/form-data">
+      <label for="input"> Browse a File </label>
+      <input id="input" type="file" name="file" hidden id="file-input" onchange="getVideo(this)"/>
+      <br />
+      <button type="submit" style="margin-top: 2rem">Upload</button>
+    </form>
+
+    <script>
+        const input = document.getElementById('file-input');
+        const video = document.getElementById("video");
+        const videoSource = document.createElement('source');
+
+        const getVideo = (tag) =>{
+            const files = tag.files || [];
+
+            if (!files.length) return;
+
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                videoSource.setAttribute('src', e.target.result);
+                video.appendChild(videoSource);
+                video.load();
+                video.play();
+            };
+
+            reader.onprogress = function (e) {
+                console.log('progress: ', Math.round((e.loaded * 100) / e.total));
+            };
+
+            reader.readAsDataURL(files[0]);
+        }
+
+        // input.addEventListener('change', function() {
+        // const files = this.files || [];
+
+        // if (!files.length) return;
+        
+        // const reader = new FileReader();
+
+        // reader.onload = function (e) {
+        //     videoSource.setAttribute('src', e.target.result);
+        //     video.appendChild(videoSource);
+        //     video.load();
+        //     video.play();
+        // };
+        
+        // reader.onprogress = function (e) {
+        //     console.log('progress: ', Math.round((e.loaded * 100) / e.total));
+        // };
+        
+        // reader.readAsDataURL(files[0]);
+        // });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,2 @@
+Firstly,open the terminal on vscode or cmd
+then type "node index.js video.mp4"

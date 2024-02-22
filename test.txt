@@ -1,0 +1,62 @@
+app.post("/", (req, res) => {
+  if (!req.files || !req.files.file) {
+    return res.status(400).send("No file uploaded");
+  }
+
+  const file = req.files.file;
+  console.log(file);
+
+  // Get video buffer
+  const videoBuffer = file.data;
+  const inputStream = new PassThrough();
+  inputStream.end(videoBuffer);
+  console.log(videoBuffer);
+
+  // count saved folder and create new folder
+  function countFolders(directory) {
+    try {
+      const contents = fs.readdirSync(directory);
+      const folders = contents.filter((item) =>
+        fs.statSync(directory + "/" + item).isDirectory()
+      );
+      return folders.length;
+    } catch (err) {
+      console.error("Error:", err);
+      return -1;
+    }
+  }
+  let numFolders = countFolders("public/compressed");
+  console.log("numFolders", numFolders);
+  numFolders = numFolders + 1;
+
+  let videoFolder = "public/compressed/video_" + numFolders;
+  if (!fs.existsSync(videoFolder)) {
+    fs.mkdirSync(videoFolder);
+  }
+  // count saved folder and create new folder " end code "
+
+  let name = "video";
+
+  ffmpeg(inputStream)
+    .output(videoFolder + "/" + name + "-720.mp4")
+    .videoCodec("libx264")
+    .videoBitrate("1400")
+    .size("720x1280")
+    .on("error", function (err) {
+      console.error("Error processing video:", err.message);
+      res.status(500).send("Error processing video");
+    })
+    .on("progress", function (progress) {
+      console.log("... frames " + progress.frames);
+    })
+    .on("end", function () {
+      console.log("Video processing completed");
+      // Send response indicating successful processing
+      let newPath = "../" + videoFolder + "/" + name + "-720.mp4";
+      newPath = newPath.replace('/public', '');
+      console.log("the path = ", newPath);
+      res.render("compressed", { output: newPath });
+      // res.send("Video processing completed");
+    })
+    .run();
+});

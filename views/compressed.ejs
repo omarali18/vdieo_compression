@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjVShBftLdPG8FJ0V7irTLQ8Uo0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <script
+      src="https://kit.fontawesome.com/37e9c3555a.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Ubuntu&display=swap");
+
+      * {
+        text-align: center;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        background-color: #8d44c4;
+      }
+
+      video {
+        border: 3px dashed #fff;
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+
+    <video
+    src="<%=output%>"
+      width="320"
+      height="240"
+      controls
+      autoplay
+    >
+    </video>
+
+   
+    <!-- <video src="<%=output%>" controls autoplay width="400" height="200" ></video> -->
+    <p style="color: #fff; font-size: 17px">
+      <i class="fa-solid fa-download"></i> Now Download the video from video's
+      control
+    </p>
+    <form action="/download-video">
+    <button type="submit">Back to compress</button>
+</form>
+  </body>
+</html>
